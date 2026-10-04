@@ -1,7 +1,10 @@
 package com.recommandationengine.movieMatcher.controller;
 
+import com.recommandationengine.movieMatcher.model.MovieMatch;
 import com.recommandationengine.movieMatcher.service.MovieService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/movies")
@@ -14,8 +17,8 @@ public class MovieController {
     }
 
     @GetMapping("/search")
-    public void search(@RequestParam String query)
+    public List<MovieMatch> search(@RequestParam String query)
     {
-        movieService.search(query);
+        return movieService.search(query);
     }
 }
