@@ -77,6 +77,41 @@ public class MovieService {
         return topKMatches(matches , 3);
     }
 
+    public List<MovieMatch> similarMovies(String title) {
+        Movie selectedMovie = findMovie(title);
+        List<MovieMatch> matches = new ArrayList<>();
+
+        for (Movie movie : moviesEmbeddings) {
+            if (movie.getTitle().equalsIgnoreCase(title)) {
+                continue;
+            }
+
+            double similarity = cosineSimilarity(
+                    selectedMovie.getEmbedding(),
+                    movie.getEmbedding());
+
+            MovieMatch match = new MovieMatch(
+                    movie.getTitle(),
+                    movie.getDescription(),
+                    similarity);
+
+            matches.add(match);
+        }
+        sortBySimilarity(matches);
+        return topKMatches(matches, 3);
+    }
+
+    private Movie findMovie(String title) {
+        for (Movie movie : moviesEmbeddings) {
+            if (movie.getTitle().equalsIgnoreCase(title)) {
+                return movie;
+            }
+        }
+
+        throw new IllegalArgumentException(
+                "Movie not found: " + title
+        );
+    }
 
 
     private double cosineSimilarity(float[] a, float[] b) {
