@@ -9,8 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Movie {
+public class MovieData {
     private String title;
     private String description;
-    private float[] embedding;
 }
